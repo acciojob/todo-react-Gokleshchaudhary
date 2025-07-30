@@ -1,13 +1,37 @@
-
-import React from "react";
-import './../styles/App.css';
+import React, { useState } from 'react';
+import Todo from './Todo';
 
 const App = () => {
-  return (
-    <div>
-        {/* Do not remove the main div */}
-    </div>
-  )
-}
+  const [task, setTask] = useState('');
+  const [todoList, setTodoList] = useState([]);
 
-export default App
+  const handleAdd = () => {
+    if (task.trim() !== '') {
+      setTodoList([...todoList, task]);
+      setTask('');
+    }
+  };
+
+  const handleDelete = (index) => {
+    const updatedList = todoList.filter((_, i) => i !== index);
+    setTodoList(updatedList);
+  };
+
+  return (
+    <div id="main">
+      <input
+        id="todo-input"
+        type="text"
+        value={task}
+        placeholder="Enter a task"
+        onChange={(e) => setTask(e.target.value)}
+      />
+      <button id="add-todo-btn" onClick={handleAdd}>
+        Add Todo
+      </button>
+      <Todo list={todoList} onDelete={handleDelete} />
+    </div>
+  );
+};
+
+export default App;
