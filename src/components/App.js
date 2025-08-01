@@ -1,37 +1,37 @@
 import React, { useState } from 'react';
 import Todo from './Todo';
+import './styles.css';
 
-const App = () => {
+function App() {
   const [task, setTask] = useState('');
-  const [todoList, setTodoList] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-  const handleAdd = () => {
-    if (task.trim() !== '') {
-      setTodoList([...todoList, task]);
-      setTask('');
-    }
+  const addTodo = () => {
+    if (task.trim() === '') return;
+    setTodos([...todos, task]);
+    setTask('');
   };
 
-  const handleDelete = (index) => {
-    const updatedList = todoList.filter((_, i) => i !== index);
-    setTodoList(updatedList);
+  const deleteTodo = (indexToDelete) => {
+    const updatedTodos = todos.filter((_, index) => index !== indexToDelete);
+    setTodos(updatedTodos);
   };
 
   return (
-    <div id="main">
-      <input
-        id="todo-input"
-        type="text"
-        value={task}
-        placeholder="Enter a task"
-        onChange={(e) => setTask(e.target.value)}
-      />
-      <button id="add-todo-btn" onClick={handleAdd}>
-        Add Todo
-      </button>
-      <Todo list={todoList} onDelete={handleDelete} />
+    <div className="app-container">
+      <h1>To-Do List</h1>
+      <div className="input-group">
+        <input
+          type="text"
+          placeholder="Enter a task"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button onClick={addTodo}>Add Todo</button>
+      </div>
+      <Todo todos={todos} onDelete={deleteTodo} />
     </div>
   );
-};
+}
 
 export default App;
